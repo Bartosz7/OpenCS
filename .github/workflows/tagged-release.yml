@@ -45,15 +45,14 @@ jobs:
           cp output_files/opencs.* tag
           cp output_files/opencs.* stable
 
+      - name: "Prepare data for ontology web browser"
+        run: |
+          python /app/prepare_browser_data.py stable/opencs.ttl browser
+
       - name: "Set target directory variable for current tag version"
         run: |
           TAG_PATH=releases/${GITHUB_REF_NAME#v}
           echo "TAG_PATH=$TAG_PATH" >> $GITHUB_ENV
-        
-      - name: "Prepare jsonld files for ontology web browser"
-        run: |
-          python /app/convert_to_jsonld.py stable/opencs.ttl browser
-          ls .
 
       - name: "Generate pages for Github Pages repository"
         run: python /app/generate_pages.py ${GITHUB_REF_NAME#v} $GITHUB_REPOSITORY output_files
@@ -65,18 +64,6 @@ jobs:
           cp output_files/page.md tag/index.md
           cp output_files/page.md stable/index.md
           cp output_files/versions.md versions/index.md
-      
-      - name: "Push browser data to the Github Pages repository"
-        uses: "cpina/github-action-push-to-another-repository@main"
-        env: 
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-        with:
-          source-directory: 'browser'
-          destination-github-username: 'bartosz7'
-          destination-repository-name: 'opencs-ontology.github.io'
-          user-name: ci-worker
-          target-directory: assets/data
-          target-branch: main
 
       - name: "Set up git"
         uses: webfactory/ssh-agent@v0.7.0
@@ -89,6 +76,7 @@ jobs:
           cp -a tag/. OpenCS-ontology.github.io/$TAG_PATH
           cp -a stable/. OpenCS-ontology.github.io/releases/stable/
           cp -a versions/. OpenCS-ontology.github.io/releases/versions/ 
+          cp -a browser/. OpenCS-ontology.github.io/assets/data/
           cd OpenCS-ontology.github.io
           git config user.name "bartosz7"
           git config user.email "test@test.com"
