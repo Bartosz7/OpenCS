@@ -49,6 +49,11 @@ jobs:
         run: |
           TAG_PATH=releases/${GITHUB_REF_NAME#v}
           echo "TAG_PATH=$TAG_PATH" >> $GITHUB_ENV
+        
+      - name: "Prepare jsonld files for ontology web browser"
+        run: 
+          python /app/convert_to_jsonld.py stable/opencs.ttl browser
+          ls .
 
       - name: "Generate pages for Github Pages repository"
         run: python /app/generate_pages.py ${GITHUB_REF_NAME#v} $GITHUB_REPOSITORY output_files
@@ -60,10 +65,24 @@ jobs:
           cp output_files/page.md tag/index.md
           cp output_files/page.md stable/index.md
           cp output_files/versions.md versions/index.md
+      
+      - name: "Push browser data to the Github Pages repository"
+        uses: "cpina/github-action-push-to-another-repository@main"
+        env: 
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: 'browser'
+          destination-github-username: 'Bartosz7'
+          destination-repository-name: 'opencs-ontology.github.io'
+          user-name: ci-worker
+          target-directory: assets/data
+          target-branch: main
+
       - name: "Set up git"
         uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+
       - name: "Push files for current tag version"
         run: |
           git clone git@github.com:OpenCS-ontology/OpenCS-ontology.github.io.git
