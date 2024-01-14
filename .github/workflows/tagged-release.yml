@@ -51,7 +51,7 @@ jobs:
           echo "TAG_PATH=$TAG_PATH" >> $GITHUB_ENV
         
       - name: "Prepare jsonld files for ontology web browser"
-        run: 
+        run: |
           python /app/convert_to_jsonld.py stable/opencs.ttl browser
           ls .
 
