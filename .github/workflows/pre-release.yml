@@ -9,7 +9,7 @@ jobs:
   pre-release:
     name: "Pre-release"
     runs-on: "ubuntu-latest"
-    container: ghcr.io/Bartosz7/ci-worker:main
+    container: ghcr.io/bartosz7/ci-worker:main
 
     steps:
       - name: Checkout repository
