@@ -85,12 +85,12 @@ jobs:
 
       - name: "Push files for current tag version"
         run: |
-          git clone git@github.com:OpenCS-ontology/OpenCS-ontology.github.io.git
+          git clone git@github.com:Bartosz7/OpenCS-ontology.github.io.git
           cp -a tag/. OpenCS-ontology.github.io/$TAG_PATH
           cp -a stable/. OpenCS-ontology.github.io/releases/stable/
           cp -a versions/. OpenCS-ontology.github.io/releases/versions/ 
           cd OpenCS-ontology.github.io
-          git config user.name "opencs-ontology"
+          git config user.name "bartosz7"
           git config user.email "test@test.com"
           git add $TAG_PATH/* releases/stable/* releases/versions/*
           git commit -m "New tagged release: test"
