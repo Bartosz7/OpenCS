@@ -81,5 +81,5 @@ jobs:
           git config user.name "bartosz7"
           git config user.email "test@test.com"
           git add $TAG_PATH/* releases/stable/* releases/versions/*
-          git commit -m "New tagged release: test"
+          git commit -m "New tagged release: ${GITHUB_REF_NAME#v}"
           git push
