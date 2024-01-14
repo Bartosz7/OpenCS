@@ -1,4 +1,4 @@
-# OpenCS
+# OpenCS (fork)
 Main OpenCS ontology repository.
 
 The ontology is currently in its early stages of development. It was built from a subset of the [Microsoft Academic Knowledge Graph](https://makg.org/) by Michael Färber. You can find the scripts used for making OpenCS from MAKG in [this repository](https://github.com/OpenCS-ontology/makg-to-opencs).
