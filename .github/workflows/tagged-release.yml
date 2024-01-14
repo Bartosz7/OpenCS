@@ -48,9 +48,6 @@ jobs:
       - name: "Prepare data for ontology web browser"
         run: |
           python /app/prepare_browser_data.py stable/opencs.ttl browser
-          ls browser
-          echo "Dot:"
-          ls .
 
       - name: "Set target directory variable for current tag version"
         run: |
